@@ -38,3 +38,5 @@ get_header()?>
                     <?php the_title();?>
                 </h3>
 <?php if($role);?><p class='team-role'><?php echo esc_html($role);?></p><?php endif;?>
+
+<?php if(has_excerpt())  :
