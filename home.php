@@ -7,7 +7,7 @@
         <?php while (have_posts()): the_post();?>
             <article <?php post_class('blog-item');?>>
                 <h2 class = "blog-item_title">
-                    <a href="<?php the_permalink()?>"><?php the_title();?></a>
+                    <a href="<?php the_permalink();?>"><?php the_title();?></a>
                 </h2>
             
                 <p class = "blog-item__excerpt">
