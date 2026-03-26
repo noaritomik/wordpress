@@ -51,3 +51,40 @@ add_action('init', function () {
 });
 
 ?>
+
+// Insert demo products on theme activation
+add_action('after_switch_theme', function () {
+    if (get_option('mdps_demo_products_inserted')) {
+        return;
+    }
+
+    $demo_products = [
+        [
+            'post_title' => 'Ebook: Mastering WordPress',
+            'post_content' => 'A comprehensive guide to mastering WordPress for beginners and pros.',
+            'post_type' => 'product',
+            'post_status' => 'publish',
+        ],
+        [
+            'post_title' => 'UI Kit: Modern Web Elements',
+            'post_content' => 'A collection of modern UI elements for your next web project.',
+            'post_type' => 'product',
+            'post_status' => 'publish',
+        ],
+        [
+            'post_title' => 'Template: Portfolio Website',
+            'post_content' => 'A clean and minimal portfolio website template for creatives.',
+            'post_type' => 'product',
+            'post_status' => 'publish',
+        ],
+    ];
+
+    foreach ($demo_products as $product) {
+        // Check if product already exists
+        if (!post_exists($product['post_title'])) {
+            wp_insert_post($product);
+        }
+    }
+
+    update_option('mdps_demo_products_inserted', 1);
+});
