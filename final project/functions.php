@@ -50,12 +50,15 @@ add_action('init', function () {
     ));
 });
 
-?>
-
-// Insert demo products on theme activation
-add_action('after_switch_theme', function () {
+// Insert demo products once.
+function mdps_insert_demo_products_once()
+{
     if (get_option('mdps_demo_products_inserted')) {
         return;
+    }
+
+    if (!function_exists('post_exists')) {
+        require_once ABSPATH . 'wp-admin/includes/post.php';
     }
 
     $demo_products = [
@@ -87,4 +90,9 @@ add_action('after_switch_theme', function () {
     }
 
     update_option('mdps_demo_products_inserted', 1);
-});
+}
+
+add_action('after_switch_theme', 'mdps_insert_demo_products_once');
+
+// Fallback for already-active themes where activation hook has already passed.
+add_action('init', 'mdps_insert_demo_products_once', 20);
