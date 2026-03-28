@@ -1,22 +1,36 @@
 <?php
+/*
+Template Name: Blog
+*/
 get_header();
 
-$posts_page_id = (int) get_option('page_for_posts');
-$posts_page_title = $posts_page_id ? get_the_title($posts_page_id) : 'Journal';
-$posts_page_intro = $posts_page_id ? get_post_field('post_excerpt', $posts_page_id) : '';
+$paged = max(1, get_query_var('paged'), get_query_var('page'));
+$blog_query = new WP_Query(array(
+    'post_type' => 'post',
+    'posts_per_page' => get_option('posts_per_page'),
+    'paged' => $paged,
+    'ignore_sticky_posts' => true,
+));
 ?>
 
 <main class="container">
 
     <header class="archive-header blog-header">
         <p class="eyebrow">Blog</p>
-        <h1><?php echo esc_html($posts_page_title); ?></h1>
-        <p><?php echo esc_html($posts_page_intro ? $posts_page_intro : 'Updates, guides, and ideas from the store. Use this space for product news, design tips, and WordPress content.'); ?></p>
+        <h1><?php the_title(); ?></h1>
+        <div class="content narrow-content">
+            <?php
+            while (have_posts()) :
+                the_post();
+                the_content();
+            endwhile;
+            ?>
+        </div>
     </header>
 
-    <?php if (have_posts()) : ?>
+    <?php if ($blog_query->have_posts()) : ?>
         <div class="posts-grid blog-grid">
-            <?php while (have_posts()) : the_post(); ?>
+            <?php while ($blog_query->have_posts()) : $blog_query->the_post(); ?>
                 <article class="post-card blog-card">
                     <?php if (has_post_thumbnail()) : ?>
                         <div class="post-thumbnail">
@@ -34,13 +48,18 @@ $posts_page_intro = $posts_page_id ? get_post_field('post_excerpt', $posts_page_
                 </article>
             <?php endwhile; ?>
         </div>
+
         <div class="pagination">
-            <?php the_posts_pagination(); ?>
+            <?php
+            echo paginate_links(array(
+                'total' => $blog_query->max_num_pages,
+                'current' => $paged,
+            ));
+            ?>
         </div>
     <?php else : ?>
         <p class="empty-state">No blog posts found yet.</p>
-    </section>
-    <?php endif; ?>
+    <?php endif; wp_reset_postdata(); ?>
 
 </main>
 

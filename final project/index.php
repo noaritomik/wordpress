@@ -2,12 +2,16 @@
 
 <main class="container">
 
-    <h1>Latest Content</h1>
+    <header class="archive-header blog-header">
+        <p class="eyebrow">Latest content</p>
+        <h1>Latest Content</h1>
+        <p>Browse the newest articles, updates, and published entries from across the site.</p>
+    </header>
 
     <?php if (have_posts()) : ?>
-        <div class="posts-grid">
+        <div class="posts-grid blog-grid">
             <?php while (have_posts()) : the_post(); ?>
-                <article class="post-card">
+                <article class="post-card blog-card">
                     <?php if (has_post_thumbnail()) : ?>
                         <div class="post-thumbnail">
                             <a href="<?php the_permalink(); ?>">
@@ -15,6 +19,7 @@
                             </a>
                         </div>
                     <?php endif; ?>
+                    <p class="post-meta-chip"><?php echo esc_html(get_the_date()); ?></p>
                     <h2>
                         <a href="<?php the_permalink(); ?>">
                             <?php the_title(); ?>
@@ -23,9 +28,7 @@
                     <div class="excerpt">
                         <?php the_excerpt(); ?>
                     </div>
-                    <a class="read-more" href="<?php the_permalink(); ?>">
-                        View Details →
-                    </a>
+                    <a class="read-more" href="<?php the_permalink(); ?>">Read Article</a>
                 </article>
             <?php endwhile; ?>
         </div>
@@ -34,7 +37,7 @@
         </div>
     <?php else : ?>
 
-        <p>No content found.</p>
+        <p class="empty-state">No content found.</p>
 
     <?php endif; ?>
 

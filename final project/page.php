@@ -4,10 +4,16 @@
 
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-        <article>
+        <section class="archive-header">
             <h1><?php the_title(); ?></h1>
 
-            <div class="content">
+            <?php if (has_excerpt()) : ?>
+                <p><?php echo esc_html(get_the_excerpt()); ?></p>
+            <?php endif; ?>
+        </section>
+
+        <article class="page-shell">
+            <div class="content page-content">
                 <?php the_content(); ?>
             </div>
         </article>

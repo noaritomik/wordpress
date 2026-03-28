@@ -2,92 +2,100 @@
 /*
 Template Name: Services
 */
-get_header(); ?>
+get_header();
+
+$product_archive_url = get_post_type_archive_link('product');
+$contact_page = get_page_by_path('contact');
+$contact_url = $contact_page ? get_permalink($contact_page) : home_url('/contact/');
+$templates_term = get_term_by('name', 'Templates', 'product_category');
+$assets_term = get_term_by('name', 'Design Assets', 'product_category');
+$ebooks_term = get_term_by('name', 'Ebooks', 'product_category');
+$guides_term = get_term_by('name', 'Guides', 'product_category');
+
+$services = array(
+    array(
+        'icon' => 'UI',
+        'title' => 'Template Collections',
+        'description' => 'Landing pages, portfolio layouts, and starter screens that are ready to adapt to your brand.',
+        'items' => array('Homepage sections', 'Portfolio layouts', 'Business-ready structure', 'Responsive presentation'),
+        'url' => $templates_term ? get_term_link($templates_term) : $product_archive_url,
+        'label' => 'Browse Templates',
+    ),
+    array(
+        'icon' => 'DA',
+        'title' => 'Design Assets',
+        'description' => 'UI kits, icon packs, and reusable design parts that speed up your workflow and keep projects consistent.',
+        'items' => array('Reusable components', 'Business icon packs', 'Social media graphics', 'Clean visual systems'),
+        'url' => $assets_term ? get_term_link($assets_term) : $product_archive_url,
+        'label' => 'Browse Design Assets',
+    ),
+    array(
+        'icon' => 'EB',
+        'title' => 'Learning Resources',
+        'description' => 'Practical ebooks and walkthroughs that help beginners and freelancers build with more confidence.',
+        'items' => array('WordPress learning', 'UX writing basics', 'Step-by-step guides', 'Project-ready advice'),
+        'url' => $ebooks_term ? get_term_link($ebooks_term) : $product_archive_url,
+        'label' => 'Browse Ebooks',
+    ),
+    array(
+        'icon' => 'GD',
+        'title' => 'Launch Guides',
+        'description' => 'Checklists and planning resources that help you organize a site launch without missing the essentials.',
+        'items' => array('Launch checklists', 'Content planning', 'Pre-publish review', 'Delivery support'),
+        'url' => $guides_term ? get_term_link($guides_term) : $product_archive_url,
+        'label' => 'Browse Guides',
+    ),
+    array(
+        'icon' => 'WD',
+        'title' => 'Website Setup Support',
+        'description' => 'Guidance for structuring product pages, landing pages, and content layouts inside your WordPress theme.',
+        'items' => array('Content planning', 'Template advice', 'Catalog structure', 'Simple launch support'),
+        'url' => $contact_url,
+        'label' => 'Request Help',
+    ),
+    array(
+        'icon' => 'CS',
+        'title' => 'Custom Services',
+        'description' => 'If you need something beyond the ready-made catalog, use the contact page to discuss a custom request.',
+        'items' => array('Tailored product packs', 'Theme adjustments', 'Content cleanup', 'Storefront consultation'),
+        'url' => $contact_url,
+        'label' => 'Contact Us',
+    ),
+);
+?>
 
 <main class="container">
 
     <section class="services-hero">
-        <h1>Our Digital Products & Services</h1>
-        <p>Discover our comprehensive collection of premium digital products designed to accelerate your creative projects</p>
+        <p class="eyebrow">Services and products</p>
+        <h1><?php the_title(); ?></h1>
+        <div class="content narrow-content">
+            <?php
+            while (have_posts()) :
+                the_post();
+                the_content();
+            endwhile;
+            ?>
+        </div>
     </section>
 
-    <section class="services-grid">
-        <div class="service-card">
-            <div class="service-icon">🎨</div>
-            <h3>UI/UX Design Kits</h3>
-            <p>Complete design systems with components, patterns, and templates for modern web and mobile applications.</p>
-            <ul>
-                <li>Wireframe templates</li>
-                <li>Component libraries</li>
-                <li>Design guidelines</li>
-                <li>Prototype assets</li>
-            </ul>
-            <a href="<?php echo get_post_type_archive_link('product'); ?>?product_category=ui-kits" class="service-link">Browse UI Kits →</a>
-        </div>
-
-        <div class="service-card">
-            <div class="service-icon">📱</div>
-            <h3>Mobile App Templates</h3>
-            <p>Ready-to-use mobile app designs for iOS and Android with pixel-perfect layouts and modern interfaces.</p>
-            <ul>
-                <li>iOS & Android designs</li>
-                <li>Dark mode variants</li>
-                <li>Interactive prototypes</li>
-                <li>Source files included</li>
-            </ul>
-            <a href="<?php echo get_post_type_archive_link('product'); ?>?product_category=mobile-templates" class="service-link">Browse Templates →</a>
-        </div>
-
-        <div class="service-card">
-            <div class="service-icon">💻</div>
-            <h3>Website Templates</h3>
-            <p>Professional website templates for business, portfolio, e-commerce, and landing pages.</p>
-            <ul>
-                <li>Responsive designs</li>
-                <li>SEO optimized</li>
-                <li>Easy customization</li>
-                <li>Multiple layouts</li>
-            </ul>
-            <a href="<?php echo get_post_type_archive_link('product'); ?>?product_category=website-templates" class="service-link">Browse Templates →</a>
-        </div>
-
-        <div class="service-card">
-            <div class="service-icon">🎯</div>
-            <h3>Icon Packs</h3>
-            <p>Comprehensive icon collections in multiple styles and formats for all your design needs.</p>
-            <ul>
-                <li>SVG & PNG formats</li>
-                <li>Multiple styles</li>
-                <li>Regular updates</li>
-                <li>Commercial license</li>
-            </ul>
-            <a href="<?php echo get_post_type_archive_link('product'); ?>?product_category=icons" class="service-link">Browse Icons →</a>
-        </div>
-
-        <div class="service-card">
-            <div class="service-icon">📊</div>
-            <h3>Infographics & Illustrations</h3>
-            <p>Custom illustrations, infographics, and vector graphics for marketing and presentation needs.</p>
-            <ul>
-                <li>Vector format</li>
-                <li>Scalable graphics</li>
-                <li>Brand customization</li>
-                <li>Print ready</li>
-            </ul>
-            <a href="<?php echo get_post_type_archive_link('product'); ?>?product_category=illustrations" class="service-link">Browse Graphics →</a>
-        </div>
-
-        <div class="service-card">
-            <div class="service-icon">🎪</div>
-            <h3>Custom Design Services</h3>
-            <p>Professional design services tailored to your specific needs and brand requirements.</p>
-            <ul>
-                <li>Custom UI/UX design</li>
-                <li>Brand identity</li>
-                <li>Logo design</li>
-                <li>Consultation</li>
-            </ul>
-            <a href="<?php echo get_page_link(get_page_by_title('Contact')); ?>" class="service-link">Get Quote →</a>
+    <section class="products-section">
+        <h2>What We Offer</h2>
+        <p class="section-intro">Each service area connects directly to products or guidance your visitors can actually use.</p>
+        <div class="services-grid">
+            <?php foreach ($services as $service) : ?>
+                <article class="service-card">
+                    <div class="service-icon"><?php echo esc_html($service['icon']); ?></div>
+                    <h3><?php echo esc_html($service['title']); ?></h3>
+                    <p><?php echo esc_html($service['description']); ?></p>
+                    <ul>
+                        <?php foreach ($service['items'] as $item) : ?>
+                            <li><?php echo esc_html($item); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <a href="<?php echo esc_url($service['url']); ?>" class="service-link"><?php echo esc_html($service['label']); ?></a>
+                </article>
+            <?php endforeach; ?>
         </div>
     </section>
 
@@ -103,7 +111,7 @@ get_header(); ?>
                     <li>✓ Email support</li>
                     <li>✓ Free updates</li>
                 </ul>
-                <a href="#" class="cta-button">Get Started</a>
+                <a href="<?php echo esc_url($product_archive_url); ?>" class="cta-button">Get Started</a>
             </div>
 
             <div class="pricing-card featured">
@@ -117,7 +125,7 @@ get_header(); ?>
                     <li>✓ All updates included</li>
                     <li>✓ Team license (5 users)</li>
                 </ul>
-                <a href="#" class="cta-button">Choose Business</a>
+                <a href="<?php echo esc_url($product_archive_url); ?>" class="cta-button">Choose Business</a>
             </div>
 
             <div class="pricing-card">
@@ -130,7 +138,7 @@ get_header(); ?>
                     <li>✓ Dedicated support</li>
                     <li>✓ Custom integrations</li>
                 </ul>
-                <a href="#" class="cta-button">Contact Sales</a>
+                <a href="<?php echo esc_url($contact_url); ?>" class="cta-button">Contact Sales</a>
             </div>
         </div>
     </section>
@@ -139,8 +147,8 @@ get_header(); ?>
         <h2>Ready to Get Started?</h2>
         <p>Join thousands of creators who trust our digital products for their projects</p>
         <div class="cta-buttons">
-            <a href="<?php echo get_post_type_archive_link('product'); ?>" class="cta-button">Browse Products</a>
-            <a href="<?php echo get_page_link(get_page_by_title('Contact')); ?>" class="cta-button secondary">Contact Us</a>
+            <a href="<?php echo esc_url($product_archive_url); ?>" class="cta-button">Browse Products</a>
+            <a href="<?php echo esc_url($contact_url); ?>" class="cta-button secondary">Contact Us</a>
         </div>
     </section>
 
